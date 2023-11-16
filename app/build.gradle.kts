@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.coleanam_puiyeeng_mapd711_assignment4"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.coleanam_puiyeeng_mapd711_assignment4"
