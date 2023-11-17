@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         val username = binding.editTextUsername.text.toString()
         var password = binding.editTextTextPassword.text.toString()
 
+        // Login button click
         binding.buttonLogin.setOnClickListener{
             editor.putString("customer_username", username).apply()
             editor.putString("customer_password", password).apply()
@@ -39,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        // Admin button click
         binding.buttonAdmin.setOnClickListener{
             editor.putString("admin_username", username).apply()
             editor.putString("admin_password", password).apply()
@@ -50,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Password is empty", Toast.LENGTH_SHORT).show()
             }
             else {
-                startActivity(Intent(this, OrderActivity::class.java))
+                startActivity(Intent(this, OrderStatusActivity::class.java))
             }
         }
     }
