@@ -1,5 +1,6 @@
 package com.example.coleanam_puiyeeng_mapd711_assignment4
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,5 +15,23 @@ class OrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.buttonPep.setOnClickListener{
+
+
+            startActivity(Intent(this, InfoActivity::class.java))
+        }
+
+        binding.buttonDeluxe.setOnClickListener{
+
+
+            startActivity(Intent(this, InfoActivity::class.java))
+        }
+
+        binding.buttonMeat.setOnClickListener{
+
+
+            startActivity(Intent(this, InfoActivity::class.java))
+        }
     }
 }
