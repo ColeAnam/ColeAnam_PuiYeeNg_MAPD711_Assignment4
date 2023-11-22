@@ -85,4 +85,15 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addCustomer_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdmin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/add_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
