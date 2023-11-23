@@ -10,5 +10,8 @@ interface OrderDao {
     suspend fun insertOrder(order: Order)
 
     @Query("SELECT * FROM orders")
-    fun getAllUsers(): List<Order>
+    fun getAllOrders(): List<Order>
+
+    @Update
+    suspend fun updateOrder(order: Order)
 }
