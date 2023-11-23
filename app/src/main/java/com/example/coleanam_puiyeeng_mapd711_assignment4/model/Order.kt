@@ -7,11 +7,11 @@ import java.sql.Date
 @Entity(tableName = "orders")
 data class Order(
     @PrimaryKey(autoGenerate = true)
-    val orderId: Long = 0,
-    val customerId: Long = 0,
-    val productId: Long = 0,
-    val employeeId: Long = 0,
-    val orderDate: Date,
-    val quantity: Int = 0,
-    val status: String
+    val orderId: Int = 0,
+    val customerId: Int?,
+    val productId: Int?,
+    val employeeId: Int?,
+    val orderDate: String?,
+    val quantity: Int?,
+    val status: String?
 )
