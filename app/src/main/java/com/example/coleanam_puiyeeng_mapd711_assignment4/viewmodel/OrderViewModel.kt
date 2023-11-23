@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.OrderRepository
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
 import kotlinx.coroutines.launch
 

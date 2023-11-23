@@ -1,4 +1,4 @@
-package com.example.coleanam_puiyeeng_mapd711_assignment4.dbo
+package com.example.coleanam_puiyeeng_mapd711_assignment4.db
 
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
 

@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityOrderBinding
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.PizzaDatabase
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.PizzaRepository
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.PizzaViewModel
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.ViewModelFactoryPizza
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.PizzaDatabase
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.PizzaRepository
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.PizzaViewModel
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryPizza
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
 
 class OrderActivity : AppCompatActivity() {

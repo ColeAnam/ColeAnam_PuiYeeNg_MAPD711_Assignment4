@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityOrderStatusBinding
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.OrderDatabase
-import com.example.coleanam_puiyeeng_mapd711_assignment4.dbo.OrderRepository
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderDatabase
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.OrderViewModel
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryOrder
