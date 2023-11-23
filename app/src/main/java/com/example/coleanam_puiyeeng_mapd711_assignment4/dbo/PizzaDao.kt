@@ -7,8 +7,8 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
 interface PizzaDao {
     // create pizza
     @Insert
-    suspend fun insertPizza(pizza: Pizza)
+    fun insertPizza(pizza: Pizza)
 
     @Query("SELECT * FROM pizzas")
-    fun getAllUsers(): List<Pizza>
+    fun getAllPizzas(): List<Pizza>
 }
