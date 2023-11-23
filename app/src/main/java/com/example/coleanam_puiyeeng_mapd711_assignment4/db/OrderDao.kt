@@ -13,5 +13,14 @@ interface OrderDao {
     fun getAllOrders(): List<Order>
 
     @Update
-    suspend fun updateOrder(order: Order)
+    suspend fun updateOrder(order: Order?)
+
+    @Query("SELECT * FROM orders WHERE orderId = :orderId")
+    fun getOrderById(orderId: Int): Order?
+
+    @Delete
+    suspend fun deleteOrder(order: Order)
+
+    @Query("DELETE FROM orders")
+    suspend fun deleteAll()
 }

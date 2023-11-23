@@ -23,9 +23,27 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         }
     }
 
-    fun updateOrder(order: Order) {
+    fun updateOrder(order: Order?) {
         viewModelScope.launch {
             orderRepository.updateOrder(order)
+        }
+    }
+
+    fun getOrderById(orderId: Int): Order? {
+        //viewModelScope.launch {
+            return orderRepository.getOrderById(orderId)
+        //}
+    }
+
+    fun deleteOrder(order: Order) {
+        viewModelScope.launch {
+            orderRepository.deleteOrder(order)
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            orderRepository.deleteAll()
         }
     }
 }

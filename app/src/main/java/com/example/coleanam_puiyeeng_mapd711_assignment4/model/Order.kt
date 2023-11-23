@@ -13,5 +13,5 @@ data class Order(
     val employeeId: Int?,
     val orderDate: String?,
     val quantity: Int?,
-    val status: String?
+    var status: String?
 )
