@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 data class Customer(
     @PrimaryKey(autoGenerate = true)
     val customerId: Long = 0,
-    val userName: String,
-    val password: String,
-    val firstname: String,
-    val lastName: String,
-    val address: String,
+    var userName: String,
+    var password: String,
+    var firstname: String,
+    var lastName: String,
+    var address: String,
     val city: String,
     val postalCode: String
 )
