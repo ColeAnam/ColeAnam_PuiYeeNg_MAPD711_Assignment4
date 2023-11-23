@@ -10,12 +10,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityLoginBinding
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.CustomerViewModel
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,11 +41,12 @@ class LoginActivity : AppCompatActivity() {
         val viewModelFactory = ViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory)[CustomerViewModel::class.java]
 
-        val username = binding.editTextUsername.text.toString()
-        var password = binding.editTextTextPassword.text.toString()
+
 
         // Login button click
         binding.buttonLogin.setOnClickListener{
+            var username = binding.editTextUsername.text.toString()
+            var password = binding.editTextTextPassword.text.toString()
             editor.putString("customer_username", username).apply()
             editor.putString("customer_password", password).apply()
 
@@ -52,7 +57,25 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Password is empty", Toast.LENGTH_SHORT).show()
             }
             else {
-                startActivity(Intent(this, OrderActivity::class.java))
+                //var selectedCustomer = getSelectedCustomer(username)
+                CoroutineScope(Dispatchers.IO).launch {
+                    val customers =  viewModel.getAllCustomers()
+                    println("username: $username")
+                    println(customers[0])
+                    val customer = viewModel.getCustomerByUsername(username)
+                    println("customer:$customer")
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "customer name:  ${customer?.userName}",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        editor.putString("customerId", customer?.address).apply()
+
+                    }
+                }
+                startActivity(Intent(this, MainActivity::class.java))
             }
         }
 
@@ -63,6 +86,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Admin button click
         binding.buttonAdmin.setOnClickListener{
+            var username = binding.editTextUsername.text.toString()
+            var password = binding.editTextTextPassword.text.toString()
             editor.putString("admin_username", username).apply()
             editor.putString("admin_password", password).apply()
 
@@ -77,6 +102,13 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    private suspend fun getSelectedCustomer(username: String): Customer?{
+        var selectedCustomer = viewModel.getCustomerByUsername(username)
+        return selectedCustomer
+    }
+
+
     fun showDialog(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enter Details")

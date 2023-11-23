@@ -42,27 +42,43 @@ class EditCustomerActivity : AppCompatActivity() {
         val newPostalCode = binding.newPostalCode.text.toString()
 
         val username = sharedPreferences.getString("username", "")
-        val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
-        var selectedCustomer = viewModel.getCustomerByUsername(username)
 
-        if (newUsername != ""){
-            selectedCustomer.userName = newUsername
-        }
-        if (newPassword != ""){
-            selectedCustomer.password = newPassword
-        }
-        if (newFirstName != ""){
-            selectedCustomer.firstname = newFirstName
-        }
-        if (newLastName != ""){
-            selectedCustomer.lastName = newLastName
-        }
-        if (newAddress != ""){
-            selectedCustomer.address = newAddress
-        }
+        if (username != null) {
+
+            // val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
+            var selectedCustomer = viewModel.getCustomerByUsername(username)
+
+            if (newUsername != "") {
+                if (selectedCustomer != null) {
+                    selectedCustomer.userName = newUsername
+                }
+            }
+            if (newPassword != "") {
+                if (selectedCustomer != null) {
+                    selectedCustomer.password = newPassword
+                }
+            }
+            if (newFirstName != "") {
+                if (selectedCustomer != null) {
+                    selectedCustomer.firstname = newFirstName
+                }
+            }
+            if (newLastName != "") {
+                if (selectedCustomer != null) {
+                    selectedCustomer.lastName = newLastName
+                }
+            }
+            if (newAddress != "") {
+                if (selectedCustomer != null) {
+                    selectedCustomer.address = newAddress
+                }
+            }
 
 
-        viewModel.updateCustomer(selectedCustomer)
+            if (selectedCustomer != null) {
+                viewModel.updateCustomer(selectedCustomer)
+            }
+        }
 
         binding.newUsername.text.clear()
         binding.newPassword.text.clear()

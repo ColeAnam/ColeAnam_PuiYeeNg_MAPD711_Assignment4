@@ -14,7 +14,7 @@ class CustomerRepository(
         return customerDao.getAllCustomers()
     }
 
-    fun getCustomerByUsername(username: String?) : Customer {
+    suspend fun getCustomerByUsername(username: String) : Customer? {
         return customerDao.getCustomerByUsername(username)
     }
 

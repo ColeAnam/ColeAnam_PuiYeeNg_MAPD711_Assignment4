@@ -32,12 +32,12 @@ CustomerViewModel(
 //        getUsers()
 //    }
 
-    private fun getCustomers() {
-        viewModelScope.launch {
-            val result = customerRepository.getAllCustomers()
-            _customers.value = result
-        }
-    }
+//    private fun getCustomers() {
+//        viewModelScope.launch {
+//            val result = customerRepository.getAllCustomers()
+//            _customers.value = result
+//        }
+//    }
 
     suspend fun getAllCustomers(): List<Customer> {
         return customerRepository.getAllCustomers()
@@ -45,6 +45,16 @@ CustomerViewModel(
 //            val result = userRepository.getAllUsers()
 ////            _users.value = result
 //        }
+    }
+
+    suspend fun getCustomerByUsername(username:String) : Customer? {
+        return  customerRepository.getCustomerByUsername(username)
+//        viewModelScope.launch {
+
+//            val result = customerRepository.getCustomerByUsername(username)
+//            _customer.value = result
+//        }
+//        return _customer.value
     }
 
     fun insertCustomer(customer: Customer) {
@@ -58,11 +68,6 @@ CustomerViewModel(
            customerRepository.updateCustomer(customer)
        }
    }
-
-
-    suspend fun getCustomerByUsername(username:String?): Customer {
-        return customerRepository.getCustomerByUsername(username)
-    }
 
     fun deleteUser(customer: Customer) {
         viewModelScope.launch {
