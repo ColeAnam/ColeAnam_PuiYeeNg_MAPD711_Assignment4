@@ -16,7 +16,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.CustomerViewModel
-import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactory
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryCustomer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,8 +38,8 @@ class LoginActivity : AppCompatActivity() {
 
         val repository =
             CustomerRepository(CustomerDatabase.getDatabaseInstance(applicationContext).customerDao())
-        val viewModelFactory = ViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[CustomerViewModel::class.java]
+        val viewModelFactoryCustomer = ViewModelFactoryCustomer(repository)
+        viewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
 
 
@@ -103,11 +103,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun getSelectedCustomer(username: String): Customer?{
-        var selectedCustomer = viewModel.getCustomerByUsername(username)
-        return selectedCustomer
-    }
-
 
     fun showDialog(view: View) {
         val builder = AlertDialog.Builder(this)
@@ -134,16 +129,41 @@ class LoginActivity : AppCompatActivity() {
             val newCity = city.text.toString()
             val newPostalCode = postalCode.text.toString()
 
-            val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
-            viewModel.insertCustomer(customer)
 
-            username.text.clear()
-            password.text.clear()
-            firstName.text.clear()
-            lastName.text.clear()
-            address.text.clear()
-            city.text.clear()
-            postalCode.text.clear()
+            CoroutineScope(Dispatchers.IO).launch {
+                val checkedCustomer =  viewModel.getCustomerByUsername(newUsername)
+                if (checkedCustomer != null){
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Username '$newUsername' already exists, please register with another Username",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                else{
+                    val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
+                    viewModel.insertCustomer(customer)
+
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Successfully Registered Account '$newUsername'!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                    username.text.clear()
+                    password.text.clear()
+                    firstName.text.clear()
+                    lastName.text.clear()
+                    address.text.clear()
+                    city.text.clear()
+                    postalCode.text.clear()
+                }
+            }
+
+
         }
 
         builder.setNegativeButton("Cancel") { dialogInterface, i ->

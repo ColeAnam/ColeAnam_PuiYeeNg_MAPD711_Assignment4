@@ -12,13 +12,6 @@ class
 CustomerViewModel(
     private val customerRepository: CustomerRepository
 ) : ViewModel() {
-//    private val _users = MutableLiveData<List<User>>()
-//    val users: LiveData<List<User>>
-//        get() = _users
-//
-//    init {
-//        getAllUsers()
-//    }
 
     private val _customers = MutableLiveData<List<Customer>>()
     private val _customer = MutableLiveData<Customer>()
@@ -28,33 +21,14 @@ CustomerViewModel(
 
     val customer: LiveData<Customer>
         get() = _customer
-//    init {
-//        getUsers()
-//    }
 
-//    private fun getCustomers() {
-//        viewModelScope.launch {
-//            val result = customerRepository.getAllCustomers()
-//            _customers.value = result
-//        }
-//    }
 
     suspend fun getAllCustomers(): List<Customer> {
         return customerRepository.getAllCustomers()
-//        viewModelScope.launch {
-//            val result = userRepository.getAllUsers()
-////            _users.value = result
-//        }
     }
 
     suspend fun getCustomerByUsername(username:String) : Customer? {
         return  customerRepository.getCustomerByUsername(username)
-//        viewModelScope.launch {
-
-//            val result = customerRepository.getCustomerByUsername(username)
-//            _customer.value = result
-//        }
-//        return _customer.value
     }
 
     fun insertCustomer(customer: Customer) {

@@ -14,6 +14,9 @@ interface CustomerDao {
     @Query("SELECT * FROM customers WHERE userName = :username LIMIT 1")
     suspend fun getCustomerByUsername(username: String): Customer?
 
+    @Query("SELECT * FROM customers WHERE customerId = :customerId LIMIT 1")
+    suspend fun getCustomerByCustomerId(customerId: Long): Customer?
+
     //update user
     @Update
     suspend fun updateCustomer(customer: Customer)

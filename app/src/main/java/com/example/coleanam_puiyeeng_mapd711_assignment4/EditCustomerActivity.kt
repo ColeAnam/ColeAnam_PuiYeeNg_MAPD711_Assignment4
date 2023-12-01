@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.CustomerViewModel
-import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactory
-import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryCustomer
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityEditCustomerBinding
 
 class EditCustomerActivity : AppCompatActivity() {
@@ -28,8 +27,8 @@ class EditCustomerActivity : AppCompatActivity() {
 
         val repository =
             CustomerRepository(CustomerDatabase.getDatabaseInstance(applicationContext).customerDao())
-        val viewModelFactory = ViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[CustomerViewModel::class.java]
+        val viewModelFactoryCustomer = ViewModelFactoryCustomer(repository)
+        viewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
     }
     private suspend fun updateCustomer() {
