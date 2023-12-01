@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
@@ -32,7 +33,6 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
         private val orderDate: TextView = orderview.findViewById(R.id.orderDate)
         private val quantity: TextView = orderview.findViewById(R.id.quantity)
         private val status: TextView = orderview.findViewById(R.id.status)
-        private val statusButton: Button = orderview.findViewById(R.id.updateStatusButton)
 
         @SuppressLint("SetTextI18n")
         fun bind(order: Order) {
@@ -42,10 +42,6 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
             orderDate.text = orderDate.text.toString() + order.orderDate.toString()
             quantity.text = quantity.text.toString() + order.quantity.toString()
             status.text = status.text.toString() + order.status
-
-            statusButton.setOnClickListener{
-                println("Update button for order ${order.orderId} clicked")
-            }
         }
     }
 
