@@ -8,6 +8,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.db.AdminRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Admin
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class AdminViewModel (
     private val adminRepository: AdminRepository
@@ -21,6 +22,11 @@ class AdminViewModel (
 
         val customer: LiveData<Admin>
         get() = _admin
+
+        fun adminLogin(username: String, password: String): Boolean {
+            val admin = runBlocking { adminRepository.getAdminByUsername(username) }
+            return admin?.password == password
+        }
 
         suspend fun getAllAdmins(): List<Admin> {
             return adminRepository.getAllAdmins()
