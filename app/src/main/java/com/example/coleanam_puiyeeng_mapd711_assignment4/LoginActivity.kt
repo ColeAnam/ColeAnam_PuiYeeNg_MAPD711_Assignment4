@@ -55,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
         adminViewModel = ViewModelProvider(this, viewModelFactoryAdmin)[AdminViewModel::class.java]
 
 //        val testAdmin = Admin(userName = "hilaryng", password = "admin", firstname = "Hilary", lastName = "Ng")
+//        val testAdmin = Admin(userName = "ColeAnam", password = "admin", firstname = "Cole", lastName = "Anam")
 //        adminViewModel.insertAdmin(testAdmin)
 
         // Login button click
@@ -77,22 +78,14 @@ class LoginActivity : AppCompatActivity() {
                     customer = customerViewModel.getCustomerByUsername(username)
                     print(customer)
 
-                println("customer:$customer")
+                    println("customer:$customer")
                 }
-                if(customer != null) {
-                    val customerPassword = customer?.password
-                    if (password == customerPassword) {
-                        editor.putString("customer_username", customer?.userName).apply()
-                        startActivity(Intent(this, OrderActivity::class.java))
-                    } else {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Incorrect Username or Password",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
+
+                if (customerViewModel.customerLogin(username, password)) {
+                    println()
+                    println("Customer TRUE")
+                    editor.putString("customer_username", customer?.userName).apply()
+                    startActivity(Intent(this, OrderActivity::class.java))
                 }
                 else {
                     lifecycleScope.launch(Dispatchers.Main) {
@@ -121,25 +114,17 @@ class LoginActivity : AppCompatActivity() {
                     print("All Admin:")
                     print(admins)
                     admin = adminViewModel.getAdminByUsername(username)
-                    print(admin)
+                    println(admin)
 
-                    println("customer:$admin")
+                    //println("customer:$admin")
                 }
 
-                if(admin != null) {
-                    val adminPassword = admin?.password
-                    if (password == adminPassword) {
-                        editor.putString("admin_username", admin?.userName).apply()
-                        startActivity(Intent(this, OrderActivity::class.java))
-                    } else {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Incorrect Username or Password",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
+
+                if (adminViewModel.adminLogin(username, password)) {
+                    println()
+                    println("Admin TRUE")
+                    editor.putString("admin_username", admin?.userName).apply()
+                    startActivity(Intent(this, OrderStatusActivity::class.java))
                 }
                 else {
                     lifecycleScope.launch(Dispatchers.Main) {
@@ -150,6 +135,7 @@ class LoginActivity : AppCompatActivity() {
                         ).show()
                     }
                 }
+
             }
         }
 

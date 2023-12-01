@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class
 CustomerViewModel(
@@ -25,6 +26,11 @@ CustomerViewModel(
 
     suspend fun getAllCustomers(): List<Customer> {
         return customerRepository.getAllCustomers()
+    }
+
+    fun customerLogin(username: String, password: String): Boolean {
+        val customer = runBlocking { customerRepository.getCustomerByUsername(username) }
+        return customer?.password == password
     }
 
     suspend fun getCustomerByUsername(username:String) : Customer? {

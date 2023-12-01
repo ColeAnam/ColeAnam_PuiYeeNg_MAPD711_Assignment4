@@ -68,7 +68,7 @@ class OrderStatusActivity : AppCompatActivity() {
 
                 var order: Order? = viewModel.getOrderById(orderId)
                 println(order)
-                order?.status = "Delivery"
+
                 viewModel.updateOrder(order)
                 println("Order Update $order")
 
@@ -91,7 +91,7 @@ class OrderStatusActivity : AppCompatActivity() {
         val employeeId = 1
         val orderDate = "10/12/2023"
         val quantity = 2
-        val status = "pending"
+        val status = "In-Process"
 
         val order = Order(customerId = customerId, productId = productId, employeeId = employeeId, orderDate = orderDate, quantity = quantity, status = status)
         viewModel.insertOrder(order)

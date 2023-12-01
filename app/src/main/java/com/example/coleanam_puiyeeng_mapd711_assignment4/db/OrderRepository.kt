@@ -14,6 +14,13 @@ class OrderRepository(private val orderDao: OrderDao) {
     }
 
     suspend fun updateOrder(order: Order?) {
+        if (order?.status == "In-Process") {
+            order?.status = "Delivery"
+        }
+        else {
+            order?.status = "In-Process"
+        }
+
         orderDao.updateOrder(order)
     }
 
