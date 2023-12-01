@@ -80,21 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
                     println("customer:$customer")
                 }
-//                if(customer != null) {
-//                    val customerPassword = customer?.password
-//                    if (password == customerPassword) {
-//                        editor.putString("customer_username", customer?.userName).apply()
-//                        startActivity(Intent(this, OrderActivity::class.java))
-//                    } else {
-//                        lifecycleScope.launch(Dispatchers.Main) {
-//                            Toast.makeText(
-//                                this@LoginActivity,
-//                                "Incorrect Username or Password",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
-//                    }
-//                }
+
                 if (customerViewModel.customerLogin(username, password)) {
                     println()
                     println("Customer TRUE")
