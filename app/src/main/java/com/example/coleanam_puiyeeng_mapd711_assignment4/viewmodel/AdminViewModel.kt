@@ -16,17 +16,17 @@ class AdminViewModel (
         private val _admins = MutableLiveData<List<Admin>>()
         private val _admin = MutableLiveData<Admin>()
 
-        val customers: LiveData<List<Admin>>
+        val admins: LiveData<List<Admin>>
         get() = _admins
 
         val customer: LiveData<Admin>
         get() = _admin
 
-        suspend fun getAllCustomers(): List<Admin> {
+        suspend fun getAllAdmins(): List<Admin> {
             return adminRepository.getAllAdmins()
         }
 
-        suspend fun getCustomerByUsername(username:String) : Admin? {
+        suspend fun getAdminByUsername(username:String) : Admin? {
             return  adminRepository.getAdminByUsername(username)
         }
 
@@ -34,21 +34,21 @@ class AdminViewModel (
             return  adminRepository.getAdminByEmployeeId(employeeId)
         }
 
-        fun insertCustomer(customer: Admin) {
+        fun insertAdmin(admin: Admin) {
             viewModelScope.launch {
-                adminRepository.insertAdmin(customer)
+                adminRepository.insertAdmin(admin)
             }
         }
 
-        suspend fun updateCustomer(customer: Admin) {
+        suspend fun updateAdmin(customer: Admin) {
             viewModelScope.launch {
                 adminRepository.updateAdmin(customer)
             }
         }
 
-        fun deleteUser(customer: Admin) {
+        fun deleteAdmin(admin: Admin) {
             viewModelScope.launch {
-                adminRepository.deleteAdmin(customer)
+                adminRepository.deleteAdmin(admin)
             }
         }
 

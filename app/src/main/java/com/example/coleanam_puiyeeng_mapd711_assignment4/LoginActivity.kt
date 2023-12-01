@@ -12,10 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityLoginBinding
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.AdminDatabase
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.AdminRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
+import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Admin
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.AdminViewModel
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.CustomerViewModel
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryAdmin
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryCustomer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +28,13 @@ import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CustomerViewModel
+    private lateinit var customerViewModel: CustomerViewModel
+    private lateinit var adminViewModel: AdminViewModel
 
     private lateinit var binding: ActivityLoginBinding
     lateinit var sharedPreferences: SharedPreferences
+    var customer: Customer?  = null
+    var admin: Admin?  = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +44,23 @@ class LoginActivity : AppCompatActivity() {
         sharedPreferences = this.getSharedPreferences("SharedLoginPref", Context.MODE_PRIVATE)
         var editor = sharedPreferences.edit()
 
-        val repository =
+        val customerRepository =
             CustomerRepository(CustomerDatabase.getDatabaseInstance(applicationContext).customerDao())
-        val viewModelFactoryCustomer = ViewModelFactoryCustomer(repository)
-        viewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
+        val viewModelFactoryCustomer = ViewModelFactoryCustomer(customerRepository)
+        customerViewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
+        val adminRepository =
+            AdminRepository(AdminDatabase.getDatabaseInstance(applicationContext).adminDao())
+        val viewModelFactoryAdmin = ViewModelFactoryAdmin(adminRepository)
+        adminViewModel = ViewModelProvider(this, viewModelFactoryAdmin)[AdminViewModel::class.java]
 
+//        val testAdmin = Admin(userName = "hilaryng", password = "admin", firstname = "Hilary", lastName = "Ng")
+//        adminViewModel.insertAdmin(testAdmin)
 
         // Login button click
         binding.buttonLogin.setOnClickListener{
             var username = binding.editTextUsername.text.toString()
             var password = binding.editTextTextPassword.text.toString()
-            editor.putString("customer_username", username).apply()
-            editor.putString("customer_password", password).apply()
 
             if (binding.editTextUsername.text.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Username is empty $username", Toast.LENGTH_SHORT).show()
@@ -57,50 +69,95 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Password is empty", Toast.LENGTH_SHORT).show()
             }
             else {
-                //var selectedCustomer = getSelectedCustomer(username)
+
                 CoroutineScope(Dispatchers.IO).launch {
-                    val customers =  viewModel.getAllCustomers()
-                    println("username: $username")
-                    println(customers[0])
-                    val customer = viewModel.getCustomerByUsername(username)
-                    println("customer:$customer")
+                    val customers =  customerViewModel.getAllCustomers()
+                    print("All Customer:")
+                    println(customers)
+                    customer = customerViewModel.getCustomerByUsername(username)
+                    print(customer)
+
+                println("customer:$customer")
+                }
+                if(customer != null) {
+                    val customerPassword = customer?.password
+                    if (password == customerPassword) {
+                        editor.putString("customer_username", customer?.userName).apply()
+                        startActivity(Intent(this, OrderActivity::class.java))
+                    } else {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Incorrect Username or Password",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+                else {
                     lifecycleScope.launch(Dispatchers.Main) {
                         Toast.makeText(
                             this@LoginActivity,
-                            "customer name:  ${customer?.userName}",
+                            "Incorrect Username or Password",
                             Toast.LENGTH_LONG
                         ).show()
-
-                        editor.putString("customerId", customer?.address).apply()
-
                     }
                 }
-                startActivity(Intent(this, OrderActivity::class.java))
             }
         }
 
+        // Admin button click
+        binding.buttonAdmin.setOnClickListener {
+            var username = binding.editTextUsername.text.toString()
+            var password = binding.editTextTextPassword.text.toString()
+
+            if (binding.editTextUsername.text.isEmpty()) {
+                Toast.makeText(this@LoginActivity, "Username is empty", Toast.LENGTH_SHORT).show()
+            } else if (binding.editTextTextPassword.text.isEmpty()) {
+                Toast.makeText(this@LoginActivity, "Password is empty", Toast.LENGTH_SHORT).show()
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val admins = adminViewModel.getAllAdmins()
+                    print("All Admin:")
+                    print(admins)
+                    admin = adminViewModel.getAdminByUsername(username)
+                    print(admin)
+
+                    println("customer:$admin")
+                }
+
+                if(admin != null) {
+                    val adminPassword = admin?.password
+                    if (password == adminPassword) {
+                        editor.putString("admin_username", admin?.userName).apply()
+                        startActivity(Intent(this, OrderActivity::class.java))
+                    } else {
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Incorrect Username or Password",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
+                else {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Incorrect Username or Password",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
 
         binding.addCustomerFab.setOnClickListener {
             showDialog(it)
         }
 
-        // Admin button click
-        binding.buttonAdmin.setOnClickListener{
-            var username = binding.editTextUsername.text.toString()
-            var password = binding.editTextTextPassword.text.toString()
-            editor.putString("admin_username", username).apply()
-            editor.putString("admin_password", password).apply()
 
-            if (binding.editTextUsername.text.isEmpty()) {
-                Toast.makeText(this@LoginActivity, "Username is empty", Toast.LENGTH_SHORT).show()
-            }
-            else if (binding.editTextTextPassword.text.isEmpty()) {
-                Toast.makeText(this@LoginActivity, "Password is empty", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                startActivity(Intent(this, OrderStatusActivity::class.java))
-            }
-        }
     }
 
 
@@ -131,7 +188,7 @@ class LoginActivity : AppCompatActivity() {
 
 
             CoroutineScope(Dispatchers.IO).launch {
-                val checkedCustomer =  viewModel.getCustomerByUsername(newUsername)
+                val checkedCustomer =  customerViewModel.getCustomerByUsername(newUsername)
                 if (checkedCustomer != null){
                     lifecycleScope.launch(Dispatchers.Main) {
                         Toast.makeText(
@@ -143,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else{
                     val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
-                    viewModel.insertCustomer(customer)
+                    customerViewModel.insertCustomer(customer)
 
                     lifecycleScope.launch(Dispatchers.Main) {
                         Toast.makeText(

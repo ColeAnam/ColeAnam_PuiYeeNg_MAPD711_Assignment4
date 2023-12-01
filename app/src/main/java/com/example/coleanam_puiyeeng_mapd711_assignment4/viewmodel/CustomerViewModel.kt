@@ -43,7 +43,7 @@ CustomerViewModel(
        }
    }
 
-    fun deleteUser(customer: Customer) {
+    fun deleteCustomer(customer: Customer) {
         viewModelScope.launch {
             customerRepository.deleteCustomer(customer)
         }
