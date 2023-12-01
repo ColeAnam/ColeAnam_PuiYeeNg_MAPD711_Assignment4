@@ -18,6 +18,10 @@ class CustomerRepository(
         return customerDao.getCustomerByUsername(username)
     }
 
+    suspend fun getCustomerByCustomerId(customerId: Long) : Customer? {
+        return customerDao.getCustomerByCustomerId(customerId)
+    }
+
     suspend fun updateCustomer(customer: Customer) {
         customerDao.updateCustomer(customer)
     }
