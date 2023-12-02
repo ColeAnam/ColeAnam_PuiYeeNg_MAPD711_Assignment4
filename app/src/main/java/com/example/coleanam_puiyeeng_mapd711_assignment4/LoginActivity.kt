@@ -62,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener{
             var username = binding.editTextUsername.text.toString()
             var password = binding.editTextTextPassword.text.toString()
+            editor.putString("customer_username", username).apply()
 
             if (binding.editTextUsername.text.isEmpty()) {
                 Toast.makeText(this@LoginActivity, "Username is empty $username", Toast.LENGTH_SHORT).show()
@@ -76,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
                     print("All Customer:")
                     println(customers)
                     customer = customerViewModel.getCustomerByUsername(username)
-                    print(customer)
 
                     println("customer:$customer")
                 }
@@ -84,7 +84,6 @@ class LoginActivity : AppCompatActivity() {
                 if (customerViewModel.customerLogin(username, password)) {
                     println()
                     println("Customer TRUE")
-                    editor.putString("customer_username", customer?.userName).apply()
                     startActivity(Intent(this, OrderActivity::class.java))
                 }
                 else {
@@ -114,9 +113,12 @@ class LoginActivity : AppCompatActivity() {
                     print("All Admin:")
                     print(admins)
                     admin = adminViewModel.getAdminByUsername(username)
+
                     println(admin)
 
                     //println("customer:$admin")
+
+                    println("admin:$admin")
                 }
 
 

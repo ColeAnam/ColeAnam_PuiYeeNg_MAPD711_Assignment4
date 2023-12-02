@@ -37,6 +37,11 @@ CustomerViewModel(
         return  customerRepository.getCustomerByUsername(username)
     }
 
+    fun getCustomerByUsernameResult(username:String): Customer?{
+        val customer = runBlocking { customerRepository.getCustomerByUsername(username)}
+        return customer
+    }
+
     fun insertCustomer(customer: Customer) {
         viewModelScope.launch {
             customerRepository.insertCustomer(customer)
