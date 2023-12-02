@@ -1,3 +1,4 @@
+// Contributed by Cole Anam and Pui Yee Ng
 package com.example.coleanam_puiyeeng_mapd711_assignment4
 
 import android.content.Context
@@ -6,6 +7,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -111,9 +113,9 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    // Contributed by Pui Yee Ng
     fun showCustomerProfileDialog(view: View) {
         val builder = AlertDialog.Builder(this)
-        //builder.setTitle("Profile")
 
         val inflater = layoutInflater
         val dialogLayout = inflater.inflate(R.layout.profile_order_history_dialog_layout, null)
@@ -123,6 +125,8 @@ class OrderActivity : AppCompatActivity() {
         val address = dialogLayout.findViewById<TextView>(R.id.address)
         val city = dialogLayout.findViewById<TextView>(R.id.city)
         val postalCode = dialogLayout.findViewById<TextView>(R.id.postalCode)
+
+        val editProfileButton = dialogLayout.findViewById<Button>(R.id.editProfile)
         builder.setView(dialogLayout)
 
 
@@ -137,6 +141,10 @@ class OrderActivity : AppCompatActivity() {
 
         print(checkedinUsername)
         print(customer?.firstname)
+
+        editProfileButton.setOnClickListener(){
+            startActivity(Intent(this, EditCustomerActivity::class.java))
+        }
 
         builder.setPositiveButton("Go Back") { dialogInterface, i ->
             // Go Back to the Order Screen
