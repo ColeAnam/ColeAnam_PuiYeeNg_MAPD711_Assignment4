@@ -19,55 +19,6 @@
             android:textSize="24sp"/>
 
     </LinearLayout>
-    <!-- For username Field Layout -->
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Current Username:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentUsername"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="New Username:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <EditText
-            android:id="@+id/newUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="New Username"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="341dp"
@@ -104,28 +55,6 @@
             android:layout_width="189dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Current FirstName:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentFirstName"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="New FirstName:"
             android:textSize="16sp"
             android:gravity="center"/>
@@ -143,28 +72,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width= "189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Current LastName:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentLastName"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
     <LinearLayout
         android:layout_width="341dp"
         android:layout_height="wrap_content"
@@ -191,29 +98,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Current Address:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentAddress"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="341dp"
@@ -225,7 +109,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="New Address:"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:gravity="center"/>
 
         <EditText
@@ -247,28 +131,6 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width= "189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Current City:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentCity"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
             android:layout_width="189dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -284,28 +146,6 @@
             android:ems="10"
             android:inputType="text"
             android:hint="New City"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="341dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Current Postal Code:"
-            android:textSize="16sp"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/currentPostalCode"
-            android:layout_width="189dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:textSize="16sp"
             android:gravity="center"/>
 
@@ -334,6 +174,26 @@
             android:hint="New Postal Code"
             android:textSize="16sp"
             android:gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+
+        <Button
+            android:id="@+id/goBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go Back" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Confirm" />
 
     </LinearLayout>
 

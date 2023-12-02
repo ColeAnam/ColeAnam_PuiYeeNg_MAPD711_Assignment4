@@ -1,3 +1,4 @@
+// Contributed by Cole Anam and Pui Yee Ng
 package com.example.coleanam_puiyeeng_mapd711_assignment4
 
 import android.content.Context
@@ -148,7 +149,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-
+    // Contributed by Pui Yee Ng
     fun showDialog(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enter Details")
