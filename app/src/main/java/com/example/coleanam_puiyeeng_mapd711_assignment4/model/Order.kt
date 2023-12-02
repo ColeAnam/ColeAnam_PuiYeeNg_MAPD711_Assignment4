@@ -1,3 +1,4 @@
+// Contributed by Cole Anam
 package com.example.coleanam_puiyeeng_mapd711_assignment4.model
 
 import androidx.room.Entity

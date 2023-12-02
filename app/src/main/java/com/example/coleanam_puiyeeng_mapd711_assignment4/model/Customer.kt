@@ -1,3 +1,4 @@
+// Contributed by Pui Yee Ng
 package com.example.coleanam_puiyeeng_mapd711_assignment4.model
 
 import androidx.room.Entity
@@ -11,6 +12,6 @@ data class Customer(
     var firstname: String,
     var lastName: String,
     var address: String,
-    val city: String,
-    val postalCode: String
+    var city: String,
+    var postalCode: String
 )
