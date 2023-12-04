@@ -45,6 +45,7 @@ class OrderStatusActivity : AppCompatActivity() {
         //testData()
         //deleteData()
         //viewModel.deleteAll()
+        //viewModel.deleteAll()
 
         loadOrders()
 
@@ -69,7 +70,6 @@ class OrderStatusActivity : AppCompatActivity() {
 
                 var order: Order? = viewModel.getOrderById(orderId)
                 println(order)
-
                 viewModel.updateOrder(order)
                 println("Order Update $order")
 

@@ -16,17 +16,24 @@ import androidx.lifecycle.lifecycleScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityOrderBinding
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderDatabase
+import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.PizzaDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.PizzaRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
+import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.PizzaViewModel
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryPizza
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.CustomerViewModel
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.OrderViewModel
 import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryCustomer
+import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFactoryOrder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class OrderActivity : AppCompatActivity() {
 
@@ -34,8 +41,8 @@ class OrderActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var customerViewModel: CustomerViewModel
-
     private lateinit var viewModel: PizzaViewModel
+    private lateinit var orderViewModel: OrderViewModel
 
     var customer: Customer? = null
     var checkedinUsername: String = ""
@@ -64,23 +71,33 @@ class OrderActivity : AppCompatActivity() {
         customerViewModel =
             ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
+        val orderRepository = OrderRepository(
+            OrderDatabase.getDatabaseInstance(applicationContext).orderDao()
+        )
+        val viewModelFactoryOrder = ViewModelFactoryOrder(orderRepository)
+        orderViewModel = ViewModelProvider(this, viewModelFactoryOrder)[OrderViewModel::class.java]
+
         loadPizzas()
 
         customerViewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
         binding.buttonPep.setOnClickListener {
 
+            //testData()
 
-                //testData()
-
-                startActivity(Intent(this, InfoActivity::class.java))
-            }
+            newOrder(1, 1)
+            startActivity(Intent(this, InfoActivity::class.java))
+        }
 
         binding.buttonDeluxe.setOnClickListener {
-                startActivity(Intent(this, InfoActivity::class.java))
+
+            newOrder(2, 1)
+            startActivity(Intent(this, InfoActivity::class.java))
         }
 
         binding.buttonMeat.setOnClickListener {
+
+            newOrder(3, 1)
             startActivity(Intent(this, InfoActivity::class.java))
         }
 
@@ -89,8 +106,29 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    private fun newOrder(productId: Int, employeeId: Int) {
+        val date = getCurrentDate()
+
+        val customerUsername = sharedPreferences.getString("customer_username", "")
+        var customer: Customer? = null
+        CoroutineScope(Dispatchers.IO).launch {
+            customer = customerUsername?.let { customerViewModel.getCustomerByUsername(it) }
+            val order = Order(customerId = customer?.customerId?.toInt(), productId = productId, employeeId = employeeId, quantity = 1, orderDate = date, status = "In-Process")
+            var editor = sharedPreferences.edit()
+            orderViewModel.insertOrder(order)
+            //editor.putString("customer_order", insertedOrder.toString()).apply()
+            //println(insertedOrder.toString())
+        }
+    }
+
+    fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = Date()
+        return dateFormat.format(currentDate)
+    }
+
     private fun testData() {
-        val pizzaName = "Pepperoni"
+        val pizzaName = "3 Meat"
         val price = 15.99
         val category = "L"
 
