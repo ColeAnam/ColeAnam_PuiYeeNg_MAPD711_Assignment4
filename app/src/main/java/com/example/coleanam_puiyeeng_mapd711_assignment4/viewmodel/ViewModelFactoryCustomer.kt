@@ -4,7 +4,7 @@ package com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
-
+// Customer View Model Factory
 class ViewModelFactoryCustomer(private val repository: CustomerRepository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

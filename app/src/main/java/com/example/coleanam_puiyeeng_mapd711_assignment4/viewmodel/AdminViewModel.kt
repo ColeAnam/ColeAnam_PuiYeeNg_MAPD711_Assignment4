@@ -10,7 +10,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Admin
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
+// Admin View Model
 class AdminViewModel (
     private val adminRepository: AdminRepository
     ) : ViewModel() {

@@ -2,7 +2,7 @@ package com.example.coleanam_puiyeeng_mapd711_assignment4.db
 
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
 import org.w3c.dom.Entity
-
+// Order Repository
 class OrderRepository(private val orderDao: OrderDao) {
 
     suspend fun insertOrder(order: Order){

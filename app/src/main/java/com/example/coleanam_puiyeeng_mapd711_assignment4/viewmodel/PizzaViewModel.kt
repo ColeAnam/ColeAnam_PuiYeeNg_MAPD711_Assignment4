@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.PizzaRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
 import kotlinx.coroutines.launch
-
+// Pizza View Model
 class PizzaViewModel(private val pizzaRepository: PizzaRepository) : ViewModel() {
 
     private val _pizza = MutableLiveData<List<Pizza>>()

@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
-
+// Order Adapter for recycler view
 class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<OrderAdapter.OrderViewModel>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewModel {

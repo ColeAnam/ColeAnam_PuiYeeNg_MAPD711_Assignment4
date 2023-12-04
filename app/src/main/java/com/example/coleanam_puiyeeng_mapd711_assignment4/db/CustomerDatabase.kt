@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
-
+// Customer Database
 @Database(entities = [Customer::class], version = 1)
 abstract class CustomerDatabase : RoomDatabase() {
     abstract fun customerDao(): CustomerDao

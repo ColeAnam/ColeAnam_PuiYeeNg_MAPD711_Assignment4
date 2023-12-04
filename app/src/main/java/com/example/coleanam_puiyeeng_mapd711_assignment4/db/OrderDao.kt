@@ -3,7 +3,7 @@ package com.example.coleanam_puiyeeng_mapd711_assignment4.db
 import androidx.room.*
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
-
+// Order Dao
 @Dao
 interface OrderDao {
     // create order
