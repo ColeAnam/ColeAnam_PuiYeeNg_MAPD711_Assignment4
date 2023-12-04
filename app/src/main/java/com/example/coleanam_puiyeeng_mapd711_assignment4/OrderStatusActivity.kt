@@ -22,7 +22,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+// Order Status managed by Admin
 class OrderStatusActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrderStatusBinding
@@ -34,10 +34,12 @@ class OrderStatusActivity : AppCompatActivity() {
         binding = ActivityOrderStatusBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Register order view model
         val repository =
             OrderRepository(OrderDatabase.getDatabaseInstance(applicationContext).orderDao())
         val viewModelFactoryOrder = ViewModelFactoryOrder(repository)
         viewModel = ViewModelProvider(this, viewModelFactoryOrder)[OrderViewModel::class.java]
+        // Register recycler view
         recycleView = findViewById(R.id.recyclerView)
 
         statusUpdateButton = binding.buttonUpdateOrderStatus
@@ -54,6 +56,7 @@ class OrderStatusActivity : AppCompatActivity() {
         }
     }
 
+    // Update dialog for updating order status
     fun showUpdateDialog(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enter the Order ID of the order that you want to update")
@@ -67,9 +70,10 @@ class OrderStatusActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 // Handle submit button click
                 val orderId = etOrderId.text.toString().toInt()
-
+                // Get the order that need to be updated
                 var order: Order? = viewModel.getOrderById(orderId)
                 println(order)
+                // Update the order status
                 viewModel.updateOrder(order)
                 println("Order Update $order")
 
@@ -86,6 +90,7 @@ class OrderStatusActivity : AppCompatActivity() {
         builder.show()
     }
 
+    // test data
     private fun testData() {
         val customerId = 1
         val productId = 1
@@ -98,6 +103,7 @@ class OrderStatusActivity : AppCompatActivity() {
         viewModel.insertOrder(order)
     }
 
+    // delete data function
     private fun deleteData() {
         val orderId = 2
         val customerId = 1
@@ -111,19 +117,16 @@ class OrderStatusActivity : AppCompatActivity() {
         viewModel.deleteOrder(order)
     }
 
+    // init recycler view
     private fun initRecyclerview() {
         recycleView.layoutManager = LinearLayoutManager(this@OrderStatusActivity)
     }
 
+    // load all orders
     private fun loadOrders() {
         CoroutineScope(Dispatchers.IO).launch {
             val orders = viewModel.getAllOrders()
             lifecycleScope.launch(Dispatchers.Main) {
-                Toast.makeText(
-                    this@OrderStatusActivity,
-                    "Total Size ${orders.size}",
-                    Toast.LENGTH_LONG
-                ).show()
                 initRecyclerview()
                 val adapter = OrderAdapter(orders)
                 recycleView.adapter = adapter

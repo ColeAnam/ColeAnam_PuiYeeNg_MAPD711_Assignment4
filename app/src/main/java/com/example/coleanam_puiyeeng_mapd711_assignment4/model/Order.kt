@@ -4,7 +4,7 @@ package com.example.coleanam_puiyeeng_mapd711_assignment4.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.sql.Date
-
+// Order model
 @Entity(tableName = "orders")
 data class Order(
     @PrimaryKey(autoGenerate = true)

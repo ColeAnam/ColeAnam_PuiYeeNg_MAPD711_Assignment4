@@ -2,6 +2,7 @@ package com.example.coleanam_puiyeeng_mapd711_assignment4.db
 
 import androidx.room.*
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
+// Customer Dao
 @Dao
 interface CustomerDao {
     //create customer

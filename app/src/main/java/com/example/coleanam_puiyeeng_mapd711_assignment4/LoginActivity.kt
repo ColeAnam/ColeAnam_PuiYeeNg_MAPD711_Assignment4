@@ -42,14 +42,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Pass username to shared preference for later usage
         sharedPreferences = this.getSharedPreferences("SharedLoginPref", Context.MODE_PRIVATE)
         var editor = sharedPreferences.edit()
 
+        // Register customer view model
         val customerRepository =
             CustomerRepository(CustomerDatabase.getDatabaseInstance(applicationContext).customerDao())
         val viewModelFactoryCustomer = ViewModelFactoryCustomer(customerRepository)
         customerViewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
+        // Register admin view model
         val adminRepository =
             AdminRepository(AdminDatabase.getDatabaseInstance(applicationContext).adminDao())
         val viewModelFactoryAdmin = ViewModelFactoryAdmin(adminRepository)
@@ -63,6 +66,8 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonLogin.setOnClickListener{
             var username = binding.editTextUsername.text.toString()
             var password = binding.editTextTextPassword.text.toString()
+
+            // pass cusotmer username to shared preference for later usage
             editor.putString("customer_username", username).apply()
 
             if (binding.editTextUsername.text.isEmpty()) {
@@ -126,6 +131,7 @@ class LoginActivity : AppCompatActivity() {
                 if (adminViewModel.adminLogin(username, password)) {
                     println()
                     println("Admin TRUE")
+                    // Pass admin username to shared preference for later usage
                     editor.putString("admin_username", admin?.userName).apply()
                     startActivity(Intent(this, OrderStatusActivity::class.java))
                 }
@@ -150,6 +156,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Contributed by Pui Yee Ng
+
+    // Account Registration Dialogue
     fun showDialog(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enter Details")

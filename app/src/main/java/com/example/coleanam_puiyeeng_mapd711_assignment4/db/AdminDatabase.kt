@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Admin
-
+// Admin Database
 @Database(entities = [Admin::class], version = 1)
 abstract class AdminDatabase : RoomDatabase() {
     abstract fun adminDao(): AdminDao

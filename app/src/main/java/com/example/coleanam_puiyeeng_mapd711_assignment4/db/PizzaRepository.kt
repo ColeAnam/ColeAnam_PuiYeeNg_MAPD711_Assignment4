@@ -1,7 +1,7 @@
 package com.example.coleanam_puiyeeng_mapd711_assignment4.db
 
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Pizza
-
+// Pizza Repository
 class PizzaRepository(private val pizzaDao: PizzaDao) {
 
     suspend fun insertPizza(pizza: Pizza){
