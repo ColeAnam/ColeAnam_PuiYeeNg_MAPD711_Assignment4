@@ -9,7 +9,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Customer
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
+// Customer View Model
 class
 CustomerViewModel(
     private val customerRepository: CustomerRepository

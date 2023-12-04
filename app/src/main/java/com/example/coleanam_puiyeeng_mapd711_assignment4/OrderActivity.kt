@@ -60,11 +60,13 @@ class OrderActivity : AppCompatActivity() {
         println(checkedinUsername)
         println("---")
 
-        val repository =
+        // Register Pizza View Model
+        val pizzaRepository =
             PizzaRepository(PizzaDatabase.getDatabaseInstance(applicationContext).pizzaDao())
-        val viewModelFactoryPizza = ViewModelFactoryPizza(repository)
+        val viewModelFactoryPizza = ViewModelFactoryPizza(pizzaRepository)
         pizzaViewModel = ViewModelProvider(this, viewModelFactoryPizza)[PizzaViewModel::class.java]
 
+        // Register Customer View Model
         val customerRepository =
             CustomerRepository(
                 CustomerDatabase.getDatabaseInstance(applicationContext).customerDao()
@@ -73,6 +75,7 @@ class OrderActivity : AppCompatActivity() {
         customerViewModel =
             ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
+        // Register Order View Model
         val orderRepository = OrderRepository(
             OrderDatabase.getDatabaseInstance(applicationContext).orderDao()
         )
@@ -81,8 +84,7 @@ class OrderActivity : AppCompatActivity() {
 
         loadPizzas()
 
-        customerViewModel = ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
-
+        // Submit Pizza Pep order
         binding.buttonPep.setOnClickListener {
 
             //testData()
@@ -91,23 +93,27 @@ class OrderActivity : AppCompatActivity() {
             startActivity(Intent(this, InfoActivity::class.java))
         }
 
+        // Submit Pizza Deluxe order
         binding.buttonDeluxe.setOnClickListener {
 
             newOrder(2, 1)
             startActivity(Intent(this, InfoActivity::class.java))
         }
 
+        // Submit Pizza Meat order
         binding.buttonMeat.setOnClickListener {
 
             newOrder(3, 1)
             startActivity(Intent(this, InfoActivity::class.java))
         }
 
+        // Show customer profile
         binding.customerInfoFab.setOnClickListener {
                 showCustomerProfileDialog(it)
         }
     }
 
+    // New Order function
     private fun newOrder(productId: Int, employeeId: Int) {
         val date = getCurrentDate()
 
@@ -123,12 +129,14 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    // Get Current Date function
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = Date()
         return dateFormat.format(currentDate)
     }
 
+    // Test data
     private fun testData() {
         val pizzaName = "3 Meat"
         val price = 15.99
@@ -138,7 +146,7 @@ class OrderActivity : AppCompatActivity() {
         pizzaViewModel.insertPizza(pizza)
     }
 
-
+    // get all pizza
     private fun loadPizzas() {
         CoroutineScope(Dispatchers.IO).launch {
             val pizzas = pizzaViewModel.getAllPizzas()
@@ -147,6 +155,8 @@ class OrderActivity : AppCompatActivity() {
     }
 
     // Contributed by Pui Yee Ng
+
+    // Display customer profile and order history
     fun showCustomerProfileDialog(view: View) {
         val builder = AlertDialog.Builder(this)
 
@@ -165,9 +175,10 @@ class OrderActivity : AppCompatActivity() {
         val editProfileButton = dialogLayout.findViewById<Button>(R.id.editProfile)
         builder.setView(dialogLayout)
 
-
+        // Get customer info
         customer = customerViewModel.getCustomerByUsernameResult(checkedinUsername)
 
+        // Display customer info
         username.text = checkedinUsername
         firstName.text = customer?.firstname
         lastName.text = customer?.lastName
@@ -178,11 +189,13 @@ class OrderActivity : AppCompatActivity() {
         print(checkedinUsername)
         print(customer?.firstname)
 
+        // Get customer's order history
         CoroutineScope(Dispatchers.IO).launch {
             val orders = orderViewModel.getAllOrders()
             lifecycleScope.launch(Dispatchers.Main) {
                 recyclerView.layoutManager = LinearLayoutManager(this@OrderActivity)
                 val adapter = OrderAdapter(orders)
+                // Display order history
                 recyclerView.adapter = adapter
             }
         }

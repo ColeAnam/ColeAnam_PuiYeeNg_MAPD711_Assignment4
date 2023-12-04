@@ -1,6 +1,6 @@
 // Contributed by Pui Yee Ng
 package com.example.coleanam_puiyeeng_mapd711_assignment4.model
-
+// Admin model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 @Entity(tableName = "admins")

@@ -1,3 +1,4 @@
+// Contributed by Cole Anam
 package com.example.coleanam_puiyeeng_mapd711_assignment4
 
 import android.content.Context
@@ -19,7 +20,7 @@ import com.example.coleanam_puiyeeng_mapd711_assignment4.viewmodel.ViewModelFact
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+// Display Order Info
 class InfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityInfoBinding
@@ -38,6 +39,7 @@ class InfoActivity : AppCompatActivity() {
 
         sharedPreferences = this.getSharedPreferences("SharedLoginPref", Context.MODE_PRIVATE)
 
+        // Register Customer View Model
         val customerRepository =
             CustomerRepository(
                 CustomerDatabase.getDatabaseInstance(applicationContext).customerDao()
@@ -46,21 +48,25 @@ class InfoActivity : AppCompatActivity() {
         customerViewModel =
             ViewModelProvider(this, viewModelFactoryCustomer)[CustomerViewModel::class.java]
 
+        // Register Order View Model
         val orderRepository = OrderRepository(
             OrderDatabase.getDatabaseInstance(applicationContext).orderDao()
         )
         val viewModelFactoryOrder = ViewModelFactoryOrder(orderRepository)
         orderViewModel = ViewModelProvider(this, viewModelFactoryOrder)[OrderViewModel::class.java]
 
+        // Get Customer username from shared preference
         val customerUsername = sharedPreferences.getString("customer_username", "") ?: ""
         val orderId = sharedPreferences.getString("customer_order", "")
 
         CoroutineScope(Dispatchers.IO).launch {
             customer = customerViewModel.getCustomerByUsername(customerUsername)
 
+            // get customer orders
             order = customer?.customerId?.let { orderViewModel.getOrderByCustomer(it.toInt()) }
             println(order?.orderId)
 
+            // Display customer info
             binding.usernameLabel.text = customer?.userName
             binding.passwordLabel.text = customer?.password
             binding.firstnameLabel.text = customer?.firstname
@@ -69,6 +75,7 @@ class InfoActivity : AppCompatActivity() {
             binding.cityLabel.text = customer?.city
             binding.postalCodeLabel.text = customer?.postalCode
 
+            // display order info
             binding.orderIdLabel.text = order?.orderId.toString()
             binding.customerIdLabel.text = order?.customerId.toString()
             binding.productIdLabel.text = order?.productId.toString()

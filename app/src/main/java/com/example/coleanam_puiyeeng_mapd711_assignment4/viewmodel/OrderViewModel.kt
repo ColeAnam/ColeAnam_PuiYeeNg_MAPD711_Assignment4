@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.OrderRepository
 import com.example.coleanam_puiyeeng_mapd711_assignment4.model.Order
 import kotlinx.coroutines.launch
-
+// Order View Model
 class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel() {
     private val _orders = MutableLiveData<List<Order>>()
     val orders: LiveData<List<Order>>

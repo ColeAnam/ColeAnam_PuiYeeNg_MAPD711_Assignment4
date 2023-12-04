@@ -35,6 +35,7 @@ class EditCustomerActivity : AppCompatActivity() {
 
         sharedPreferences = this.getSharedPreferences("SharedLoginPref", Context.MODE_PRIVATE)
 
+        // Register customer View Model
         val repository =
             CustomerRepository(
                 CustomerDatabase.getDatabaseInstance(applicationContext).customerDao()
@@ -44,7 +45,7 @@ class EditCustomerActivity : AppCompatActivity() {
 
 
         binding.confirm.setOnClickListener() {
-
+            // get the updated customer info from edit text field
             val newPassword = binding.newPassword.text.toString()
             val newFirstName = binding.newFirstName.text.toString()
             val newLastName = binding.newLastName.text.toString()
@@ -52,51 +53,64 @@ class EditCustomerActivity : AppCompatActivity() {
             val newCity = binding.newCity.text.toString()
             val newPostalCode = binding.newPostalCode.text.toString()
 
+            // get the customer username from shared preferences
             val username = sharedPreferences.getString("customer_username", "")
             println(username)
 
             if (username != null) {
-                // val customer = Customer(userName = newUsername, password = newPassword, firstname = newFirstName, lastName = newLastName, address = newAddress, city = newCity, postalCode = newPostalCode)
+                // get the login customer record
                 CoroutineScope(Dispatchers.IO).launch {
                     selectedCustomer = viewModel.getCustomerByUsernameResult(username)
                 }
+                // store the updated fields
                 var updateFields = mutableListOf<String>()
 
-                println(updateFields.isEmpty())
-                    if (selectedCustomer != null) {
-                        selectedCustomer!!.userName = username
-                    }
+                // store username to the updateFields
+                if (selectedCustomer != null) {
+                    selectedCustomer!!.userName = username
+                }
 
+                // store newPassword to the updateFields, change the password of user record to newPassword
                 if (newPassword != "") {
                     updateFields.add("Password: ******")
                     if (selectedCustomer != null) {
                         selectedCustomer!!.password = newPassword
                     }
                 }
+
+                // store newFirstName to the updateFields, change the firstname of user record to newFirstName
                 if (newFirstName != "") {
                     updateFields.add("First Name: " + newFirstName)
                     if (selectedCustomer != null) {
                         selectedCustomer!!.firstname = newFirstName
                     }
                 }
+
+                // store newLastName to the updateFields, change the lastName of user record to newLastName
                 if (newLastName != "") {
                     updateFields.add("Last Name: " + newLastName)
                     if (selectedCustomer != null) {
                         selectedCustomer!!.lastName = newLastName
                     }
                 }
+
+                // store newAddress to the updateFields, change the address of user record to newAddress
                 if (newAddress != "") {
                     updateFields.add("Address: " + newAddress)
                     if (selectedCustomer != null) {
                         selectedCustomer!!.address = newAddress
                     }
                 }
+
+                // store newAddress to the updateFields, change the city of user record to newCity
                 if (newCity != "") {
                     updateFields.add("City: " + newCity)
                     if (selectedCustomer != null) {
                         selectedCustomer!!.city = newCity
                     }
                 }
+
+                // store newPostalCode to the updateFields, change the Postal Code of user record to newPostalCode
                 if (newPostalCode != "") {
                     updateFields.add("Postal Code: " + newPostalCode)
                     if (selectedCustomer != null) {
@@ -105,7 +119,8 @@ class EditCustomerActivity : AppCompatActivity() {
                 }
                 println(selectedCustomer)
                 println(updateFields)
-                //println(!updateFields.isEmpty())
+
+                // Alert when no updated fields are entered
                 if (updateFields.isEmpty()) {
                     lifecycleScope.launch(Dispatchers.Main) {
                         Toast.makeText(
@@ -116,9 +131,11 @@ class EditCustomerActivity : AppCompatActivity() {
                     }
                 }else {
                     if (selectedCustomer != null) {
+                        // update custoemr record
                         CoroutineScope(Dispatchers.IO).launch {
                             viewModel.updateCustomer(selectedCustomer!!)
                         }
+                        // Alert box for Successfully Updated Profile
                         val updateFieldString = updateFields.joinToString("\n")
                         lifecycleScope.launch(Dispatchers.Main) {
                             Toast.makeText(
@@ -130,7 +147,7 @@ class EditCustomerActivity : AppCompatActivity() {
                     }
                 }
             }
-
+            // clear edit text box
             binding.newPassword.text.clear()
             binding.newFirstName.text.clear()
             binding.newLastName.text.clear()
