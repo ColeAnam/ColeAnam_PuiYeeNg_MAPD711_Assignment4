@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.Toast
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.coleanam_puiyeeng_mapd711_assignment4.databinding.ActivityOrderBinding
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerDatabase
 import com.example.coleanam_puiyeeng_mapd711_assignment4.db.CustomerRepository
@@ -41,8 +42,9 @@ class OrderActivity : AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var customerViewModel: CustomerViewModel
-    private lateinit var viewModel: PizzaViewModel
+    private lateinit var pizzaViewModel: PizzaViewModel
     private lateinit var orderViewModel: OrderViewModel
+
 
     var customer: Customer? = null
     var checkedinUsername: String = ""
@@ -61,7 +63,7 @@ class OrderActivity : AppCompatActivity() {
         val repository =
             PizzaRepository(PizzaDatabase.getDatabaseInstance(applicationContext).pizzaDao())
         val viewModelFactoryPizza = ViewModelFactoryPizza(repository)
-        viewModel = ViewModelProvider(this, viewModelFactoryPizza)[PizzaViewModel::class.java]
+        pizzaViewModel = ViewModelProvider(this, viewModelFactoryPizza)[PizzaViewModel::class.java]
 
         val customerRepository =
             CustomerRepository(
@@ -133,20 +135,13 @@ class OrderActivity : AppCompatActivity() {
         val category = "L"
 
         val pizza = Pizza(pizzaName = pizzaName, price = price, category = category)
-        viewModel.insertPizza(pizza)
+        pizzaViewModel.insertPizza(pizza)
     }
 
 
     private fun loadPizzas() {
         CoroutineScope(Dispatchers.IO).launch {
-            val pizzas = viewModel.getAllPizzas()
-            lifecycleScope.launch(Dispatchers.Main) {
-                Toast.makeText(
-                    this@OrderActivity,
-                    "Total Size ${pizzas.size}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            val pizzas = pizzaViewModel.getAllPizzas()
             println("Pizzas: $pizzas")
         }
     }
@@ -163,6 +158,9 @@ class OrderActivity : AppCompatActivity() {
         val address = dialogLayout.findViewById<TextView>(R.id.address)
         val city = dialogLayout.findViewById<TextView>(R.id.city)
         val postalCode = dialogLayout.findViewById<TextView>(R.id.postalCode)
+        val recyclerView = dialogLayout.findViewById<RecyclerView>(R.id.orderRecyclerView)
+
+
 
         val editProfileButton = dialogLayout.findViewById<Button>(R.id.editProfile)
         builder.setView(dialogLayout)
@@ -179,6 +177,15 @@ class OrderActivity : AppCompatActivity() {
 
         print(checkedinUsername)
         print(customer?.firstname)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val orders = orderViewModel.getAllOrders()
+            lifecycleScope.launch(Dispatchers.Main) {
+                recyclerView.layoutManager = LinearLayoutManager(this@OrderActivity)
+                val adapter = OrderAdapter(orders)
+                recyclerView.adapter = adapter
+            }
+        }
 
         editProfileButton.setOnClickListener(){
             startActivity(Intent(this, EditCustomerActivity::class.java))
