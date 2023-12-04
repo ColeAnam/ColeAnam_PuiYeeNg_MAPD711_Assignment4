@@ -28,6 +28,10 @@ class OrderRepository(private val orderDao: OrderDao) {
         return orderDao.getOrderById(orderId)
     }
 
+    fun getOrderByCustomer(customerId: Int): Order? {
+        return orderDao.getOrderByCustomer(customerId)
+    }
+
     suspend fun deleteOrder(order: Order) {
         orderDao.deleteOrder(order)
     }
