@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
             else {
 
                 CoroutineScope(Dispatchers.IO).launch {
-                    val customers =  customerViewModel.getAllCustomers()
+                    val customers = customerViewModel.getAllCustomers()
                     print("All Customer:")
                     println(customers)
                     customer = customerViewModel.getCustomerByUsername(username)

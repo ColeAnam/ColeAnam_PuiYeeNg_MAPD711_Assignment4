@@ -36,6 +36,10 @@ class OrderViewModel(private val orderRepository: OrderRepository) : ViewModel()
         //}
     }
 
+    fun getOrderByCustomer(customerId: Int): Order? {
+        return orderRepository.getOrderByCustomer(customerId)
+    }
+
     fun deleteOrder(order: Order) {
         viewModelScope.launch {
             orderRepository.deleteOrder(order)
