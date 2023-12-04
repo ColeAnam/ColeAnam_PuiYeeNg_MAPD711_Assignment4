@@ -177,6 +177,7 @@ class OrderActivity : AppCompatActivity() {
 
         // Get customer info
         customer = customerViewModel.getCustomerByUsernameResult(checkedinUsername)
+        val customerId: Int = customer?.customerId?.toInt() ?: 0
 
         // Display customer info
         username.text = checkedinUsername
@@ -191,7 +192,7 @@ class OrderActivity : AppCompatActivity() {
 
         // Get customer's order history
         CoroutineScope(Dispatchers.IO).launch {
-            val orders = orderViewModel.getAllOrders()
+            val orders = orderViewModel.getOrderListByCustomer(customerId)
             lifecycleScope.launch(Dispatchers.Main) {
                 recyclerView.layoutManager = LinearLayoutManager(this@OrderActivity)
                 val adapter = OrderAdapter(orders)
